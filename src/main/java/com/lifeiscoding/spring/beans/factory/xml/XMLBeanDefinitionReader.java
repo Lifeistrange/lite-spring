@@ -4,6 +4,7 @@ import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.factory.BeanDefinitionStoreException;
 import com.lifeiscoding.spring.beans.factory.support.BeanDefinitionRegistry;
 import com.lifeiscoding.spring.beans.factory.support.GenericBeanDefinition;
+import com.lifeiscoding.spring.core.io.Resource;
 import com.lifeiscoding.spring.util.ClassUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -23,11 +24,10 @@ public class XMLBeanDefinitionReader {
         this.beanDefinitionRegistry = beanDefinitionRegistry;
     }
 
-    public void loadBeanDefinition(String configFile) {
+    public void loadBeanDefinition(Resource resource) {
         InputStream is = null;
         try {
-            ClassLoader cl = ClassUtils.getDefaultClassLoader();
-            is = cl.getResourceAsStream(configFile);
+            is = resource.getInputStream();
             SAXReader reader = new SAXReader();
             Document doc = reader.read(is);
 

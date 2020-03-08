@@ -3,14 +3,16 @@ package com.lifeiscoding.spring.beans.factory.support;
 import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.factory.BeanCreationException;
 import com.lifeiscoding.spring.beans.factory.BeanFactory;
+import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.lifeiscoding.spring.util.ClassUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinitionRegistry {
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
+    private ClassLoader beanClassLoader;
 
     public BeanDefinition getBeanDefinition(String beanID) {
         return beanDefinitionMap.get(beanID);
@@ -36,4 +38,13 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
         }
     }
 
+    @Override
+    public void setBeanClassLoader(ClassLoader beanClassLoader) {
+        this.beanClassLoader = beanClassLoader;
+    }
+
+    @Override
+    public ClassLoader getBeanClassLoader() {
+        return (this.beanClassLoader != null ? beanClassLoader: ClassUtils.getDefaultClassLoader());
+    }
 }
