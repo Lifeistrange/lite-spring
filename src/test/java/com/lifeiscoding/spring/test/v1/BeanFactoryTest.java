@@ -24,16 +24,37 @@ public class BeanFactoryTest {
         this.reader = new XMLBeanDefinitionReader(factory);
     }
 
+//    @Test
+//    public void testGetBean() {
+//        reader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
+//        BeanDefinition bd = factory.getBeanDefinition("petStore");
+//
+//        assertEquals("com.lifeiscoding.spring.service.v1.PetStoreService", bd.getBeanClassName());
+//
+//        PetStoreService petStore = (PetStoreService) factory.getBean("petStore");
+//
+//        assertNotNull(petStore);
+//    }
+
     @Test
     public void testGetBean() {
         reader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
         BeanDefinition bd = factory.getBeanDefinition("petStore");
+
+        assertTrue(bd.isSingleton());
+        assertFalse(bd.isPrototype());
+        assertEquals(BeanDefinition.SCOPE.DEFAULT, bd.getScope());
+
 
         assertEquals("com.lifeiscoding.spring.service.v1.PetStoreService", bd.getBeanClassName());
 
         PetStoreService petStore = (PetStoreService) factory.getBean("petStore");
 
         assertNotNull(petStore);
+
+        PetStoreService petStore2 = (PetStoreService) factory.getBean("petStore");
+
+        assertEquals(petStore, petStore2);
     }
 
     @Test

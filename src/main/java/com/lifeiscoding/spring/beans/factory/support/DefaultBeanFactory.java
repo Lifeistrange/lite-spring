@@ -2,14 +2,14 @@ package com.lifeiscoding.spring.beans.factory.support;
 
 import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.factory.BeanCreationException;
-import com.lifeiscoding.spring.beans.factory.BeanFactory;
 import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.lifeiscoding.spring.util.ClassUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
+        implements ConfigurableBeanFactory, BeanDefinitionRegistry {
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
     private ClassLoader beanClassLoader;
@@ -28,6 +28,18 @@ public class DefaultBeanFactory implements ConfigurableBeanFactory, BeanDefiniti
         if (bd == null) {
             throw new BeanCreationException("Bean Definition does not exist");
         }
+        if (bd.isSingleton()) {
+            Object bean = this.getSingleton(bd.getBeanClassName());
+            if (bean == null) {
+                bean = this.createBean(bd);
+                this.registerSingleton(bd.getBeanClassName(), bean);
+            }
+            return bean;
+        }
+        return createBean(bd);
+    }
+
+    private Object createBean(BeanDefinition bd) {
         ClassLoader cl = ClassUtils.getDefaultClassLoader();
         String beanClassName = bd.getBeanClassName();
         try {
