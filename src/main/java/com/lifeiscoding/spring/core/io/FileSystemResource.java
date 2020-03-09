@@ -1,12 +1,12 @@
 package com.lifeiscoding.spring.core.io;
 
 
+import com.lifeiscoding.spring.util.Assert;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.lifeiscoding.spring.util.Assert;
 
 
 public class FileSystemResource implements Resource {

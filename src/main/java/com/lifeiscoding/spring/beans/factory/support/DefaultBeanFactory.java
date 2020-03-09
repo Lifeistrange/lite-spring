@@ -57,6 +57,6 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 
     @Override
     public ClassLoader getBeanClassLoader() {
-        return (this.beanClassLoader != null ? beanClassLoader: ClassUtils.getDefaultClassLoader());
+        return (this.beanClassLoader != null ? beanClassLoader : ClassUtils.getDefaultClassLoader());
     }
 }

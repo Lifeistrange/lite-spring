@@ -5,7 +5,6 @@ import com.lifeiscoding.spring.beans.factory.BeanDefinitionStoreException;
 import com.lifeiscoding.spring.beans.factory.support.BeanDefinitionRegistry;
 import com.lifeiscoding.spring.beans.factory.support.GenericBeanDefinition;
 import com.lifeiscoding.spring.core.io.Resource;
-import com.lifeiscoding.spring.util.ClassUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;

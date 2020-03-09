@@ -1,6 +1,5 @@
 package com.lifeiscoding.spring.beans.factory.support;
 
-import com.lifeiscoding.spring.beans.factory.BeanCreationException;
 import com.lifeiscoding.spring.beans.factory.BeanRegisterException;
 import com.lifeiscoding.spring.beans.factory.config.SingletonBeanRegistry;
 import com.lifeiscoding.spring.util.Assert;

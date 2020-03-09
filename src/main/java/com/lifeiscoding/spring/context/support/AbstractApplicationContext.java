@@ -32,7 +32,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 
     @Override
     public ClassLoader getBeanClassLoader() {
-        return (this.beanClassLoader != null ? beanClassLoader: ClassUtils.getDefaultClassLoader());
+        return (this.beanClassLoader != null ? beanClassLoader : ClassUtils.getDefaultClassLoader());
     }
 
     protected abstract Resource getResource(String configFile);

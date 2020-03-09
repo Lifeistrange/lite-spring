@@ -1,12 +1,11 @@
-package com.lifeiscoding.spring.test.v1;
+package com.lifeiscoding.spring.beans;
 
-import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.factory.BeanCreationException;
 import com.lifeiscoding.spring.beans.factory.BeanDefinitionStoreException;
 import com.lifeiscoding.spring.beans.factory.support.DefaultBeanFactory;
 import com.lifeiscoding.spring.beans.factory.xml.XMLBeanDefinitionReader;
 import com.lifeiscoding.spring.core.io.ClassPathResource;
-import com.lifeiscoding.spring.service.v1.PetStoreService;
+import com.lifeiscoding.test.service.PetStoreService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,18 +23,6 @@ public class BeanFactoryTest {
         this.reader = new XMLBeanDefinitionReader(factory);
     }
 
-//    @Test
-//    public void testGetBean() {
-//        reader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
-//        BeanDefinition bd = factory.getBeanDefinition("petStore");
-//
-//        assertEquals("com.lifeiscoding.spring.service.v1.PetStoreService", bd.getBeanClassName());
-//
-//        PetStoreService petStore = (PetStoreService) factory.getBean("petStore");
-//
-//        assertNotNull(petStore);
-//    }
-
     @Test
     public void testGetBean() {
         reader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
@@ -46,7 +33,7 @@ public class BeanFactoryTest {
         assertEquals(BeanDefinition.SCOPE.DEFAULT, bd.getScope());
 
 
-        assertEquals("com.lifeiscoding.spring.service.v1.PetStoreService", bd.getBeanClassName());
+        assertEquals("com.lifeiscoding.test.service.v1.PetStoreService", bd.getBeanClassName());
 
         PetStoreService petStore = (PetStoreService) factory.getBean("petStore");
 
