@@ -1,11 +1,16 @@
 package com.lifeiscoding.spring.beans.factory.support;
 
 import com.lifeiscoding.spring.beans.BeanDefinition;
+import com.lifeiscoding.spring.beans.PropertyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GenericBeanDefinition implements BeanDefinition {
 
     private String id;
     private String beanClassName;
+    private List<PropertyValue> propertyValues = new ArrayList<>();
     private boolean singleton = true;
     private boolean prototype = false;
     private SCOPE scope = SCOPE.DEFAULT;
@@ -30,6 +35,11 @@ public class GenericBeanDefinition implements BeanDefinition {
     }
 
     @Override
+    public SCOPE getScope() {
+        return scope;
+    }
+
+    @Override
     public void setScope(String scope) {
         setScope(SCOPE.valueOf(scope));
     }
@@ -41,12 +51,12 @@ public class GenericBeanDefinition implements BeanDefinition {
         this.prototype = scope == SCOPE.PROTOTYPE;
     }
 
-    @Override
-    public SCOPE getScope() {
-        return scope;
-    }
-
     public String getBeanClassName() {
         return this.beanClassName;
+    }
+
+    @Override
+    public List<PropertyValue> getPropertyValues() {
+        return propertyValues;
     }
 }

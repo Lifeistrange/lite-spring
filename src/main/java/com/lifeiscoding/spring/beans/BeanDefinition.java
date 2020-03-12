@@ -1,18 +1,23 @@
 package com.lifeiscoding.spring.beans;
 
-public interface BeanDefinition {
-    enum SCOPE {SINGLETON, PROTOTYPE, DEFAULT}
+import java.util.List;
 
+public interface BeanDefinition {
     boolean isSingleton();
 
     boolean isPrototype();
+
+    SCOPE getScope();
 
     void setScope(String scope);
 
     void setScope(SCOPE scope);
 
-    SCOPE getScope();
-
     String getBeanClassName();
+
+    List<PropertyValue> getPropertyValues();
+
+    enum SCOPE {SINGLETON, PROTOTYPE, DEFAULT}
+
 
 }

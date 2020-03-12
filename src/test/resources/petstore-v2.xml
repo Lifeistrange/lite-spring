@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-    <bean id="petStore" class="com.lifeiscoding.test.service.PetStoreService">
+    <bean id="petStore" class="com.lifeiscoding.spring.test.service.PetStoreService">
         <property name="accountDao" ref="accountDao"/>
         <property name="itemDao" ref="itemDao"/>
     </bean>
 
-    <bean id="accountDao" class="com.lifeiscoding.test.dao..AccountDao">
+    <bean id="accountDao" class="com.lifeiscoding.spring.test.dao.AccountDao">
     </bean>
 
-    <bean id="itemDao" class="com.lifeiscoding.test.dao.ItemDao">
+    <bean id="itemDao" class="com.lifeiscoding.spring.test.dao.ItemDao">
     </bean>
 </beans>

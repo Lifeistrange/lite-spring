@@ -5,7 +5,7 @@ import com.lifeiscoding.spring.beans.factory.BeanDefinitionStoreException;
 import com.lifeiscoding.spring.beans.factory.support.DefaultBeanFactory;
 import com.lifeiscoding.spring.beans.factory.xml.XMLBeanDefinitionReader;
 import com.lifeiscoding.spring.core.io.ClassPathResource;
-import com.lifeiscoding.test.service.PetStoreService;
+import com.lifeiscoding.spring.test.service.PetStoreService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class BeanFactoryTest {
         assertEquals(BeanDefinition.SCOPE.DEFAULT, bd.getScope());
 
 
-        assertEquals("com.lifeiscoding.test.service.v1.PetStoreService", bd.getBeanClassName());
+        assertEquals("com.lifeiscoding.spring.test.service.PetStoreService", bd.getBeanClassName());
 
         PetStoreService petStore = (PetStoreService) factory.getBean("petStore");
 

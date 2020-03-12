@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans>
-    <bean id="petStore" class="com.lifeiscoding.test.service.PetStoreService"></bean>
+    <bean id="petStore" class="com.lifeiscoding.spring.test.service.PetStoreService"></bean>
 </beans>
