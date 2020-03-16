@@ -1,11 +1,13 @@
 package com.lifeiscoding.spring.context;
 
 import com.lifeiscoding.spring.context.support.ClassPathXmlApplicationContext;
+import com.lifeiscoding.spring.test.dao.AccountDao;
+import com.lifeiscoding.spring.test.dao.ItemDao;
 import com.lifeiscoding.spring.test.service.PetStoreService;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ApplicationContextTest {
 
@@ -23,5 +25,10 @@ public class ApplicationContextTest {
 
         assertNotNull(petStoreService.getAccountDao());
         assertNotNull(petStoreService.getItemDao());
+        assertNotNull(petStoreService.getOwner());
+
+        assertTrue(petStoreService.getAccountDao() instanceof AccountDao);
+        assertTrue(petStoreService.getItemDao() instanceof ItemDao);
+        assertEquals(petStoreService.getOwner(), "test");
     }
 }

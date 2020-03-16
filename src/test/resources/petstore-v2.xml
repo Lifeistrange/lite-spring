@@ -3,6 +3,7 @@
     <bean id="petStore" class="com.lifeiscoding.spring.test.service.PetStoreService">
         <property name="accountDao" ref="accountDao"/>
         <property name="itemDao" ref="itemDao"/>
+        <property name="owner" value="test"/>
     </bean>
 
     <bean id="accountDao" class="com.lifeiscoding.spring.test.dao.AccountDao">
