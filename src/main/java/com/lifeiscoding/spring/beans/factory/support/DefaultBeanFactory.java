@@ -2,6 +2,8 @@ package com.lifeiscoding.spring.beans.factory.support;
 
 import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.PropertyValue;
+import com.lifeiscoding.spring.beans.SimpleTypeConverter;
+import com.lifeiscoding.spring.beans.TypeConverter;
 import com.lifeiscoding.spring.beans.factory.BeanCreationException;
 import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.lifeiscoding.spring.util.ClassUtils;
@@ -60,6 +62,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         }
 
         BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(this);
+        TypeConverter converter = new SimpleTypeConverter();
 
         try {
             for (PropertyValue propertyValue : propertyValues) {
@@ -71,7 +74,8 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
                 PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
                 for (PropertyDescriptor propertyDescriptor: propertyDescriptors) {
                     if (propertyDescriptor.getName().equals(propertyName)) {
-                        propertyDescriptor.getWriteMethod().invoke(bean, resolvedValue);
+                        Object convertedValue = converter.convertIfNecessary(resolvedValue, propertyDescriptor.getPropertyType());
+                        propertyDescriptor.getWriteMethod().invoke(bean, convertedValue);
                     }
                 }
             }
