@@ -7,6 +7,8 @@ public interface BeanDefinition {
 
     boolean isPrototype();
 
+    String getId();
+
     SCOPE getScope();
 
     void setScope(String scope);
@@ -18,6 +20,8 @@ public interface BeanDefinition {
     List<PropertyValue> getPropertyValues();
 
     ConstructorArgument getConstructorArgument();
+
+    boolean hasConstructorArgumentValues();
 
     enum SCOPE {SINGLETON, PROTOTYPE, DEFAULT}
 

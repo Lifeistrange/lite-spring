@@ -41,7 +41,7 @@ public class ApplicationContextTest {
 
         assertNotNull(petStoreService.getAccountDao());
         assertNotNull(petStoreService.getItemDao());
-        assertNotNull(petStoreService.getOwner());
+        assertNotNull(petStoreService.getVersion());
 
         assertTrue(petStoreService.getAccountDao() instanceof AccountDao);
         assertTrue(petStoreService.getItemDao() instanceof ItemDao);

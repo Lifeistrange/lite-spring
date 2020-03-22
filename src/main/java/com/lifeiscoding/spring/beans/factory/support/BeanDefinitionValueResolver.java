@@ -1,13 +1,14 @@
 package com.lifeiscoding.spring.beans.factory.support;
 
+import com.lifeiscoding.spring.beans.factory.BeanFactory;
 import com.lifeiscoding.spring.beans.factory.config.RuntimeBeanReference;
 import com.lifeiscoding.spring.beans.factory.config.TypedStringValue;
 
 public class BeanDefinitionValueResolver {
 
-    private final DefaultBeanFactory factory;
+    private final BeanFactory factory;
 
-    public BeanDefinitionValueResolver(DefaultBeanFactory factory) {
+    public BeanDefinitionValueResolver(BeanFactory factory) {
         this.factory = factory;
     }
 

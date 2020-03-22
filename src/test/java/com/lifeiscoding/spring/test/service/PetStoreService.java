@@ -12,9 +12,15 @@ public class PetStoreService {
     private int version;
     private boolean aSwitch;
 
-    public void PetStoreService() {}
+    public PetStoreService() {}
 
-    public void PetStoreService(AccountDao accountDao, ItemDao itemDao, int version) {
+    public PetStoreService(AccountDao accountDao, ItemDao itemDao, int version) {
+        this.accountDao = accountDao;
+        this.itemDao = itemDao;
+        this.version = version;
+    }
+
+    public PetStoreService(AccountDao accountDao, ItemDao itemDao, int version, String owner) {
         this.accountDao = accountDao;
         this.itemDao = itemDao;
         this.version = version;
