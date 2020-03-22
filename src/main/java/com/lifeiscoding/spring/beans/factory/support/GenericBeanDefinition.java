@@ -1,6 +1,7 @@
 package com.lifeiscoding.spring.beans.factory.support;
 
 import com.lifeiscoding.spring.beans.BeanDefinition;
+import com.lifeiscoding.spring.beans.ConstructorArgument;
 import com.lifeiscoding.spring.beans.PropertyValue;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class GenericBeanDefinition implements BeanDefinition {
     private String id;
     private String beanClassName;
     private List<PropertyValue> propertyValues = new ArrayList<>();
+    private ConstructorArgument constructorArgument = new ConstructorArgument();
     private boolean singleton = true;
     private boolean prototype = false;
     private SCOPE scope = SCOPE.DEFAULT;
@@ -58,5 +60,10 @@ public class GenericBeanDefinition implements BeanDefinition {
     @Override
     public List<PropertyValue> getPropertyValues() {
         return propertyValues;
+    }
+
+    @Override
+    public ConstructorArgument getConstructorArgument() {
+        return constructorArgument;
     }
 }

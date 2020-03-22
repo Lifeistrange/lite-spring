@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans>
+    <bean id="petStore" class="com.lifeiscoding.spring.test.service.PetStoreService">
+        <constructor-arg ref="accountDao"/>
+        <constructor-arg ref="itemDao"/>
+        <constructor-arg value="1"/>
+    </bean>
+    <bean id="itemDao" class="com.lifeiscoding.spring.test.dao.ItemDao">
+    </bean>
+    <bean id="accountDao" class="com.lifeiscoding.spring.test.dao.AccountDao">
+    </bean>
+</beans>

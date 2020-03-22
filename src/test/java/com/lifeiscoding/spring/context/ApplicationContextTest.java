@@ -12,14 +12,14 @@ import static org.junit.Assert.*;
 public class ApplicationContextTest {
 
     @Test
-    public void testGetBean() {
+    public void testGetBeanV1() {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v1.xml");
         PetStoreService petStore = (PetStoreService) ctx.getBean("petStore");
         Assert.assertNotNull(petStore);
     }
 
     @Test
-    public void testGetBeanProperty() {
+    public void testGetBeanPropertyV2() {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v2.xml");
         PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStore");
 
@@ -32,5 +32,19 @@ public class ApplicationContextTest {
         assertEquals("test", petStoreService.getOwner());
         assertEquals(2, petStoreService.getVersion());
         assertEquals(true, petStoreService.getaSwitch());
+    }
+
+    @Test
+    public void testGetBeanPropertyV3() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v3.xml");
+        PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStore");
+
+        assertNotNull(petStoreService.getAccountDao());
+        assertNotNull(petStoreService.getItemDao());
+        assertNotNull(petStoreService.getOwner());
+
+        assertTrue(petStoreService.getAccountDao() instanceof AccountDao);
+        assertTrue(petStoreService.getItemDao() instanceof ItemDao);
+        assertEquals(1, petStoreService.getVersion());
     }
 }

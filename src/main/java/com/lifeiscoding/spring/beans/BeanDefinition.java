@@ -17,6 +17,8 @@ public interface BeanDefinition {
 
     List<PropertyValue> getPropertyValues();
 
+    ConstructorArgument getConstructorArgument();
+
     enum SCOPE {SINGLETON, PROTOTYPE, DEFAULT}
 
 
