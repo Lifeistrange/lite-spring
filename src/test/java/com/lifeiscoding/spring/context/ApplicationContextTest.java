@@ -47,4 +47,13 @@ public class ApplicationContextTest {
         assertTrue(petStoreService.getItemDao() instanceof ItemDao);
         assertEquals(1, petStoreService.getVersion());
     }
+
+    @Test
+    public void testGetBeanPropertyV4() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v4.xml");
+        PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStore");
+
+        Assert.assertNotNull(petStoreService.getAccountDao());
+        Assert.assertNotNull(petStoreService.getItemDao());
+    }
 }

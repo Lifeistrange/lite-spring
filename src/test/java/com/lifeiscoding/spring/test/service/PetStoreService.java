@@ -1,12 +1,18 @@
 package com.lifeiscoding.spring.test.service;
 
 
+import com.lifeiscoding.spring.beans.factory.annotation.Autowired;
+import com.lifeiscoding.spring.stereotype.Component;
 import com.lifeiscoding.spring.test.dao.AccountDao;
 import com.lifeiscoding.spring.test.dao.ItemDao;
 
+
+@Component(value="petStore")
 public class PetStoreService {
 
+    @Autowired
     private AccountDao accountDao;
+    @Autowired
     private ItemDao itemDao;
     private String owner;
     private int version;
