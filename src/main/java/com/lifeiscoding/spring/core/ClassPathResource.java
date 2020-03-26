@@ -1,4 +1,4 @@
-package com.lifeiscoding.spring.core.io;
+package com.lifeiscoding.spring.core;
 
 import com.lifeiscoding.spring.util.ClassUtils;
 

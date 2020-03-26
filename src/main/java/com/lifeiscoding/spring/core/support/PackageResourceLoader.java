@@ -1,7 +1,7 @@
-package com.lifeiscoding.spring.core.io.support;
+package com.lifeiscoding.spring.core.support;
 
-import com.lifeiscoding.spring.core.io.FileSystemResource;
-import com.lifeiscoding.spring.core.io.Resource;
+import com.lifeiscoding.spring.core.Resource;
+import com.lifeiscoding.spring.core.FileSystemResource;
 import com.lifeiscoding.spring.util.Assert;
 import com.lifeiscoding.spring.util.ClassUtils;
 import org.apache.commons.logging.Log;

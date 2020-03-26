@@ -3,7 +3,7 @@ package com.lifeiscoding.spring.context.support;
 import com.lifeiscoding.spring.beans.factory.support.DefaultBeanFactory;
 import com.lifeiscoding.spring.beans.factory.xml.XMLBeanDefinitionReader;
 import com.lifeiscoding.spring.context.ApplicationContext;
-import com.lifeiscoding.spring.core.io.Resource;
+import com.lifeiscoding.spring.core.Resource;
 import com.lifeiscoding.spring.util.ClassUtils;
 
 public abstract class AbstractApplicationContext implements ApplicationContext {

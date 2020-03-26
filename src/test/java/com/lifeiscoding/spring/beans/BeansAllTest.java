@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
         ConstructorResolverTest.class,
         CustomBooleanEditorTest.class,
         CustomNumberEditorTest.class,
-        TypeConverterTest.class})
+        TypeConverterTest.class,
+        XMLBeanDefinitionReaderTest.class})
 public class BeansAllTest {
 }

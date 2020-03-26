@@ -1,7 +1,7 @@
 package com.lifeiscoding.spring.context;
 
-import com.lifeiscoding.spring.core.io.Resource;
-import com.lifeiscoding.spring.core.io.support.PackageResourceLoader;
+import com.lifeiscoding.spring.core.Resource;
+import com.lifeiscoding.spring.core.support.PackageResourceLoader;
 import org.junit.Assert;
 import org.junit.Test;
 

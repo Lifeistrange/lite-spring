@@ -4,7 +4,7 @@ import com.lifeiscoding.spring.beans.factory.BeanCreationException;
 import com.lifeiscoding.spring.beans.factory.BeanDefinitionStoreException;
 import com.lifeiscoding.spring.beans.factory.support.DefaultBeanFactory;
 import com.lifeiscoding.spring.beans.factory.xml.XMLBeanDefinitionReader;
-import com.lifeiscoding.spring.core.io.ClassPathResource;
+import com.lifeiscoding.spring.core.ClassPathResource;
 import com.lifeiscoding.spring.test.service.PetStoreService;
 import org.junit.Assert;
 import org.junit.Before;

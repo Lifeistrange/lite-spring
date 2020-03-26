@@ -1,4 +1,4 @@
-package com.lifeiscoding.spring.core.io;
+package com.lifeiscoding.spring.core;
 
 import java.io.IOException;
 import java.io.InputStream;

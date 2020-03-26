@@ -3,13 +3,13 @@ package com.lifeiscoding.spring.beans.factory.xml;
 import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.ConstructorArgument;
 import com.lifeiscoding.spring.beans.PropertyValue;
-import com.lifeiscoding.spring.beans.factory.BeanCreationException;
 import com.lifeiscoding.spring.beans.factory.BeanDefinitionStoreException;
 import com.lifeiscoding.spring.beans.factory.config.RuntimeBeanReference;
 import com.lifeiscoding.spring.beans.factory.config.TypedStringValue;
 import com.lifeiscoding.spring.beans.factory.support.BeanDefinitionRegistry;
 import com.lifeiscoding.spring.beans.factory.support.GenericBeanDefinition;
-import com.lifeiscoding.spring.core.io.Resource;
+import com.lifeiscoding.spring.context.annotation.ClassPathBeanDefinitionScanner;
+import com.lifeiscoding.spring.core.Resource;
 import com.lifeiscoding.spring.util.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +34,10 @@ public class XMLBeanDefinitionReader {
     public static final String VALUE_ATTRIBUTE = "value";
     public static final String NAME_ATTRIBUTE = "name";
     private static final String TYPE_ATTRIBUTE = "type";
+    public static final String BEANS_NAMESPACE_URI = "http://www.springframework.org/schema/beans";
+    public static final String CONTEXT_NAMESPACE_URI = "http://www.springframework.org/schema/context";
+    private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
+
 
     private BeanDefinitionRegistry beanDefinitionRegistry;
 
@@ -52,16 +56,15 @@ public class XMLBeanDefinitionReader {
             Iterator<Element> iter = root.elementIterator();
             while (iter.hasNext()) {
                 Element ele = (Element) iter.next();
-                String id = ele.attributeValue(ID_ATTRIBUTE);
-                String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
-                String scope = ele.attributeValue(SCOPE_ATTRIBUTE);
-                BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
-                if (scope != null) {
-                    bd.setScope(scope);
+
+                String namespaceUri = ele.getNamespaceURI();
+
+                if (this.isDefaultNamespace(namespaceUri)) {
+                    parseDefautlElement(ele);
+                } else if (this.isContextNamespace(namespaceUri)) {
+                    parseComponentElement(ele);
                 }
-                parseConstructorArgElements(ele, bd);
-                parsePropertyElement(ele, bd);
-                this.beanDefinitionRegistry.registerBeanDefinition(id, bd);
+
             }
         } catch (Exception e) {
             throw new BeanDefinitionStoreException("IOException parsing XML document", e);
@@ -74,6 +77,33 @@ public class XMLBeanDefinitionReader {
                 }
             }
         }
+    }
+
+    private void parseComponentElement(Element ele) {
+        String basePackages = ele.attributeValue(BASE_PACKAGE_ATTRIBUTE);
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(beanDefinitionRegistry);
+        scanner.doScan(basePackages);
+    }
+
+    private void parseDefautlElement(Element ele) {
+        String id = ele.attributeValue(ID_ATTRIBUTE);
+        String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
+        String scope = ele.attributeValue(SCOPE_ATTRIBUTE);
+        BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
+        if (scope != null) {
+            bd.setScope(scope);
+        }
+        parseConstructorArgElements(ele, bd);
+        parsePropertyElement(ele, bd);
+        this.beanDefinitionRegistry.registerBeanDefinition(id, bd);
+    }
+
+    public boolean isDefaultNamespace(String namespaceUri) {
+        return (!StringUtils.hasLength(namespaceUri) || BEANS_NAMESPACE_URI.equals(namespaceUri));
+    }
+
+    public boolean isContextNamespace(String namespaceUri) {
+        return (!StringUtils.hasLength(namespaceUri) || CONTEXT_NAMESPACE_URI.equals(namespaceUri));
     }
 
     private void parseConstructorArgElements(Element beanEle, BeanDefinition bd) {
