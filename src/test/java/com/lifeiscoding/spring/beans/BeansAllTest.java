@@ -11,6 +11,7 @@ import org.junit.runners.Suite;
         CustomBooleanEditorTest.class,
         CustomNumberEditorTest.class,
         TypeConverterTest.class,
-        XMLBeanDefinitionReaderTest.class})
+        XMLBeanDefinitionReaderTest.class,
+        DependencyDescriptorTest.class})
 public class BeansAllTest {
 }

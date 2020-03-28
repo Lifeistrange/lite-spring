@@ -23,6 +23,12 @@ public interface BeanDefinition {
 
     boolean hasConstructorArgumentValues();
 
+    Class<?> resolveBeanClass(ClassLoader classLoader) throws ClassNotFoundException;
+
+    Class<?> getBeanClass() throws IllegalStateException;
+
+    boolean hasBeanClass();
+
     enum SCOPE {SINGLETON, PROTOTYPE, DEFAULT}
 
 
