@@ -5,13 +5,16 @@ import com.lifeiscoding.spring.beans.PropertyValue;
 import com.lifeiscoding.spring.beans.SimpleTypeConverter;
 import com.lifeiscoding.spring.beans.TypeConverter;
 import com.lifeiscoding.spring.beans.factory.BeanCreationException;
+import com.lifeiscoding.spring.beans.factory.config.BeanPostProcessor;
 import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.lifeiscoding.spring.beans.factory.config.DependencyDescriptor;
+import com.lifeiscoding.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import com.lifeiscoding.spring.util.ClassUtils;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +23,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         implements ConfigurableBeanFactory, BeanDefinitionRegistry {
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
     private ClassLoader beanClassLoader;
 
     public BeanDefinition getBeanDefinition(String beanID) {
@@ -56,6 +60,12 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     private void populateBean(BeanDefinition bd, Object bean) {
+        for (BeanPostProcessor processor: this.getBeanPostProcessors()) {
+            if (processor instanceof InstantiationAwareBeanPostProcessor) {
+                ((InstantiationAwareBeanPostProcessor) processor).postProcessPropertyValues(bean, bd.getId());
+            }
+        }
+
         List<PropertyValue> propertyValues = bd.getPropertyValues();
 
         if (propertyValues == null || propertyValues.isEmpty()) {
@@ -73,7 +83,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 
                 BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
                 PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-                for (PropertyDescriptor propertyDescriptor: propertyDescriptors) {
+                for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                     if (propertyDescriptor.getName().equals(propertyName)) {
                         Object convertedValue = converter.convertIfNecessary(resolvedValue, propertyDescriptor.getPropertyType());
                         propertyDescriptor.getWriteMethod().invoke(bean, convertedValue);
@@ -111,9 +121,19 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     @Override
+    public void addBeanPostProcessor(BeanPostProcessor postProcessor) {
+        this.beanPostProcessors.add(postProcessor);
+    }
+
+    @Override
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
+
+    @Override
     public Object resolveDependency(DependencyDescriptor descriptor) {
         Class<?> typeToMatch = descriptor.getDependencyType();
-        for (BeanDefinition bd: this.beanDefinitionMap.values()) {
+        for (BeanDefinition bd : this.beanDefinitionMap.values()) {
             resolveBeanClass(bd);
             Class<?> beanClass = bd.getBeanClass();
             if (typeToMatch.isAssignableFrom(beanClass)) {
@@ -129,7 +149,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         } else {
             try {
                 bd.resolveBeanClass(this.getBeanClassLoader());
-            }catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException("can't load class: " + bd.getBeanClassName());
             }
         }

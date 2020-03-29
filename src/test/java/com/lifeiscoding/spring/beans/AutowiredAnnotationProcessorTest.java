@@ -42,7 +42,6 @@ public class AutowiredAnnotationProcessorTest {
         List<InjectionElement> elements = injectionMetadata.getInjectionElements();
         Assert.assertEquals(2, elements.size());
 
-
         assertFieldExists(elements, "accountDao");
         assertFieldExists(elements, "itemDao");
     }

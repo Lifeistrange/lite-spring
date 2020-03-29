@@ -1,5 +1,7 @@
 package com.lifeiscoding.spring.context.support;
 
+import com.lifeiscoding.spring.beans.factory.annotation.AutowiredAnnotationProcessor;
+import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.lifeiscoding.spring.beans.factory.support.DefaultBeanFactory;
 import com.lifeiscoding.spring.beans.factory.xml.XMLBeanDefinitionReader;
 import com.lifeiscoding.spring.context.ApplicationContext;
@@ -17,6 +19,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         XMLBeanDefinitionReader reader = new XMLBeanDefinitionReader(factory);
         Resource resource = getResource(configFile);
         reader.loadBeanDefinition(resource);
+        registerBeanPostProcessors(factory);
     }
 
     @Override
@@ -34,4 +37,10 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     }
 
     protected abstract Resource getResource(String configFile);
+
+    protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
+        AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
+        postProcessor.setBeanFactory(beanFactory);
+        beanFactory.addBeanPostProcessor(postProcessor);
+    }
 }

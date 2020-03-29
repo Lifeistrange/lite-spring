@@ -1,6 +1,9 @@
 package com.lifeiscoding.spring.beans.factory.annotation;
 
+import com.lifeiscoding.spring.beans.BeansException;
+import com.lifeiscoding.spring.beans.factory.BeanCreationException;
 import com.lifeiscoding.spring.beans.factory.config.AutowireCapableBeanFactory;
+import com.lifeiscoding.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import com.lifeiscoding.spring.util.AnnotationUtils;
 import com.lifeiscoding.spring.util.ReflectionUtils;
 
@@ -13,13 +16,12 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-public class AutowiredAnnotationProcessor {
+public class AutowiredAnnotationProcessor implements InstantiationAwareBeanPostProcessor {
 
+    private final Set<Class<? extends Annotation>> autowiredAnnotationTypes = new LinkedHashSet<>();
     private AutowireCapableBeanFactory beanFactory;
     private String requiredParameterName = "required";
     private boolean requiredParameterValue = true;
-
-    private final Set<Class<? extends Annotation>> autowiredAnnotationTypes = new LinkedHashSet<>();
 
     public AutowiredAnnotationProcessor() {
         this.autowiredAnnotationTypes.add(Autowired.class);
@@ -31,7 +33,7 @@ public class AutowiredAnnotationProcessor {
 
         do {
             LinkedList<InjectionElement> currElements = new LinkedList<>();
-            for (Field field: targetClass.getDeclaredFields()) {
+            for (Field field : targetClass.getDeclaredFields()) {
                 Annotation ann = findAutowiredAnnotation(field);
                 if (ann != null) {
                     if (Modifier.isStatic(field.getModifiers())) {
@@ -41,7 +43,7 @@ public class AutowiredAnnotationProcessor {
                     currElements.add(new AutowiredFieldElement(field, required, beanFactory));
                 }
             }
-            for (Method method: targetClass.getDeclaredMethods()) {
+            for (Method method : targetClass.getDeclaredMethods()) {
 
             }
             elements.addAll(0, currElements);
@@ -77,4 +79,33 @@ public class AutowiredAnnotationProcessor {
         this.beanFactory = beanFactory;
     }
 
+    @Override
+    public Object beforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+        return null;
+    }
+
+    @Override
+    public boolean afterInstantiation(Object bean, String beanName) throws BeansException {
+        return true;
+    }
+
+    @Override
+    public void postProcessPropertyValues(Object bean, String beanName) throws BeansException {
+        InjectionMetadata metadata = buildAutowiringMetadata(bean.getClass());
+        try {
+            metadata.inject(bean);
+        } catch (Throwable ex) {
+            throw new BeanCreationException(beanName, "Injection of autowired dependencies failed!");
+        }
+    }
+
+    @Override
+    public Object beforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+
+    @Override
+    public Object afterInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
 }

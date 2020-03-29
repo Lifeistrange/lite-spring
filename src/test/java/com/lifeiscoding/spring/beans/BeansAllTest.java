@@ -12,6 +12,7 @@ import org.junit.runners.Suite;
         CustomNumberEditorTest.class,
         TypeConverterTest.class,
         XMLBeanDefinitionReaderTest.class,
-        DependencyDescriptorTest.class})
+        DependencyDescriptorTest.class,
+        AutowiredAnnotationProcessorTest.class})
 public class BeansAllTest {
 }
