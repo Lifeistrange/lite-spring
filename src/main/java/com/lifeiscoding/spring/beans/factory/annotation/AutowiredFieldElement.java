@@ -1,8 +1,8 @@
 package com.lifeiscoding.spring.beans.factory.annotation;
 
 import com.lifeiscoding.spring.beans.factory.BeanCreationException;
+import com.lifeiscoding.spring.beans.factory.config.AutowireCapableBeanFactory;
 import com.lifeiscoding.spring.beans.factory.config.DependencyDescriptor;
-import com.lifeiscoding.spring.beans.factory.support.DefaultBeanFactory;
 import com.lifeiscoding.spring.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -11,7 +11,7 @@ public class AutowiredFieldElement extends InjectionElement {
 
     boolean required;
 
-    public AutowiredFieldElement(Field f, boolean required, DefaultBeanFactory factory) {
+    public AutowiredFieldElement(Field f, boolean required, AutowireCapableBeanFactory factory) {
         super(f, factory);
         this.required = required;
     }
@@ -33,7 +33,7 @@ public class AutowiredFieldElement extends InjectionElement {
         }
     }
 
-    private Field getField() {
+    public Field getField() {
         return (Field) this.member;
     }
 }
