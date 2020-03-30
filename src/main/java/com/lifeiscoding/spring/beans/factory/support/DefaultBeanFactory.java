@@ -5,6 +5,7 @@ import com.lifeiscoding.spring.beans.PropertyValue;
 import com.lifeiscoding.spring.beans.SimpleTypeConverter;
 import com.lifeiscoding.spring.beans.TypeConverter;
 import com.lifeiscoding.spring.beans.factory.BeanCreationException;
+import com.lifeiscoding.spring.beans.factory.NoSuchBeanDefinitionException;
 import com.lifeiscoding.spring.beans.factory.config.BeanPostProcessor;
 import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.lifeiscoding.spring.beans.factory.config.DependencyDescriptor;
@@ -51,6 +52,17 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         return createBean(bd);
     }
 
+    @Override
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        BeanDefinition bd = this.getBeanDefinition(name);
+
+        if (bd == null) {
+            throw new NoSuchBeanDefinitionException(name);
+        }
+        resolveBeanClass(bd);
+        return bd.getBeanClass();
+    }
+
     private Object createBean(BeanDefinition bd) {
         Object bean = instantiateBean(bd);
 
@@ -60,7 +72,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     private void populateBean(BeanDefinition bd, Object bean) {
-        for (BeanPostProcessor processor: this.getBeanPostProcessors()) {
+        for (BeanPostProcessor processor : this.getBeanPostProcessors()) {
             if (processor instanceof InstantiationAwareBeanPostProcessor) {
                 ((InstantiationAwareBeanPostProcessor) processor).postProcessPropertyValues(bean, bd.getId());
             }

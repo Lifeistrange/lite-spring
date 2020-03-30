@@ -1,5 +1,6 @@
 package com.lifeiscoding.spring.context.support;
 
+import com.lifeiscoding.spring.beans.factory.NoSuchBeanDefinitionException;
 import com.lifeiscoding.spring.beans.factory.annotation.AutowiredAnnotationProcessor;
 import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
 import com.lifeiscoding.spring.beans.factory.support.DefaultBeanFactory;
@@ -42,5 +43,10 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
         postProcessor.setBeanFactory(beanFactory);
         beanFactory.addBeanPostProcessor(postProcessor);
+    }
+
+    @Override
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        return this.factory.getType(name);
     }
 }

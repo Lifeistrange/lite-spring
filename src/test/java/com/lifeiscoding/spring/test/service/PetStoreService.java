@@ -5,6 +5,7 @@ import com.lifeiscoding.spring.beans.factory.annotation.Autowired;
 import com.lifeiscoding.spring.stereotype.Component;
 import com.lifeiscoding.spring.test.dao.AccountDao;
 import com.lifeiscoding.spring.test.dao.ItemDao;
+import com.lifeiscoding.spring.test.util.MessageTracker;
 
 
 @Component(value="petStore")
@@ -71,5 +72,10 @@ public class PetStoreService {
 
     public void setaSwitch(boolean aSwitch) {
         this.aSwitch = aSwitch;
+    }
+
+    public void placeOrder() {
+        System.out.println("place order");
+        MessageTracker.addMsg("place order");
     }
 }

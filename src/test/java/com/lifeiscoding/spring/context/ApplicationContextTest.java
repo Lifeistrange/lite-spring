@@ -4,8 +4,11 @@ import com.lifeiscoding.spring.context.support.ClassPathXmlApplicationContext;
 import com.lifeiscoding.spring.test.dao.AccountDao;
 import com.lifeiscoding.spring.test.dao.ItemDao;
 import com.lifeiscoding.spring.test.service.PetStoreService;
+import com.lifeiscoding.spring.test.util.MessageTracker;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -56,4 +59,23 @@ public class ApplicationContextTest {
         Assert.assertNotNull(petStoreService.getAccountDao());
         Assert.assertNotNull(petStoreService.getItemDao());
     }
+
+    @Test
+    public void testPlaceOrderV5() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("petstrore-v5.xml");
+        PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStore");
+
+        Assert.assertNotNull(petStoreService.getAccountDao());
+        Assert.assertNotNull(petStoreService. getItemDao());
+
+        petStoreService.placeOrder();
+
+        List<String> msgs = MessageTracker.getMsgs();
+
+        Assert.assertEquals(3, msgs.size());
+        Assert.assertEquals("start tx", msgs.get(0));
+        Assert.assertEquals("place order", msgs.get(1));
+        Assert.assertEquals("commit tx", msgs.get(2));
+    }
+
 }
