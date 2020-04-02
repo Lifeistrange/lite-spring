@@ -42,6 +42,13 @@
             <version>1.8.13</version>
         </dependency>
 
+        <!-- aop -->
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+            <version>1.0</version>
+        </dependency>
+
         <!-- test -->
         <dependency>
             <groupId>junit</groupId>
