@@ -16,10 +16,13 @@ public class ConstructorArgument {
         this.argumentValues.add(valueHolder);
     }
 
+    public void addArgumentValue(Object value) {
+        this.argumentValues.add(new ValueHolder(value));
+    }
+
     public List<ValueHolder> getArgumentValues() {
         return Collections.unmodifiableList(this.argumentValues);
     }
-
 
     public int getArgumentCount() {
         return this.argumentValues.size();
@@ -29,11 +32,9 @@ public class ConstructorArgument {
         return this.argumentValues.isEmpty();
     }
 
-
     public void clear() {
         this.argumentValues.clear();
     }
-
 
     public static class ValueHolder {
 

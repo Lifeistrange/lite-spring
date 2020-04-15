@@ -1,5 +1,6 @@
 package com.lifeiscoding.spring.beans.factory.xml;
 
+import com.lifeiscoding.spring.aop.config.ConfigBeanDefinitionParser;
 import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.ConstructorArgument;
 import com.lifeiscoding.spring.beans.PropertyValue;
@@ -36,6 +37,7 @@ public class XMLBeanDefinitionReader {
     private static final String TYPE_ATTRIBUTE = "type";
     public static final String BEANS_NAMESPACE_URI = "http://www.springframework.org/schema/beans";
     public static final String CONTEXT_NAMESPACE_URI = "http://www.springframework.org/schema/context";
+    public static final String AOP_NAMESPACE_URI = "http://www.springframework.org/schema/aop";
     private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
 
@@ -63,6 +65,8 @@ public class XMLBeanDefinitionReader {
                     parseDefautlElement(ele);
                 } else if (this.isContextNamespace(namespaceUri)) {
                     parseComponentElement(ele);
+                } else if (this.isAOPNamespace(namespaceUri)) {
+                    parseAOPElement(ele);
                 }
 
             }
@@ -78,6 +82,12 @@ public class XMLBeanDefinitionReader {
             }
         }
     }
+
+    private void parseAOPElement(Element ele) {
+        ConfigBeanDefinitionParser parser = new ConfigBeanDefinitionParser();
+        parser.parse(ele, this.beanDefinitionRegistry);
+    }
+
 
     private void parseComponentElement(Element ele) {
         String basePackages = ele.attributeValue(BASE_PACKAGE_ATTRIBUTE);
@@ -104,6 +114,10 @@ public class XMLBeanDefinitionReader {
 
     public boolean isContextNamespace(String namespaceUri) {
         return (!StringUtils.hasLength(namespaceUri) || CONTEXT_NAMESPACE_URI.equals(namespaceUri));
+    }
+
+    private boolean isAOPNamespace(String namespaceUri) {
+        return (!StringUtils.hasLength(namespaceUri) || AOP_NAMESPACE_URI.equals(namespaceUri));
     }
 
     private void parseConstructorArgElements(Element beanEle, BeanDefinition bd) {

@@ -2,18 +2,19 @@ package com.lifeiscoding.spring.aop.aspectj;
 
 import com.lifeiscoding.spring.aop.Advice;
 import com.lifeiscoding.spring.aop.Pointcut;
+import com.lifeiscoding.spring.aop.config.AspectInstanceFactory;
 
 import java.lang.reflect.Method;
 
 public abstract class AbstractAspectJAdvice implements Advice {
     protected Method adviceMethod;
-    protected Pointcut pc;
-    protected Object adviceObject;
+    protected AspectJExpressionPointcut pc;
+    protected AspectInstanceFactory adviceObjectFactory;
 
-    public AbstractAspectJAdvice(Method adviceMethod, AspectJExpressionPointcut pointcut, Object adviceObject) {
+    public AbstractAspectJAdvice(Method adviceMethod, AspectJExpressionPointcut pointcut, AspectInstanceFactory adviceObjectFactory) {
         this.adviceMethod = adviceMethod;
         this.pc = pointcut;
-        this.adviceObject = adviceObject;
+        this.adviceObjectFactory = adviceObjectFactory;
     }
 
     @Override
@@ -22,6 +23,14 @@ public abstract class AbstractAspectJAdvice implements Advice {
     }
 
     public void invokeAdviceMethod() throws  Throwable{
-        adviceMethod.invoke(adviceObject);
+        adviceMethod.invoke(adviceObjectFactory.getAspectInstance());
+    }
+
+    public Method getAdviceMethod() {
+        return adviceMethod;
+    }
+
+    public Object getAdviceInstance() throws Exception {
+        return adviceObjectFactory.getAspectInstance();
     }
 }

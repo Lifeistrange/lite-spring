@@ -7,6 +7,8 @@ public interface BeanDefinition {
 
     boolean isPrototype();
 
+    boolean isSynthetic();
+
     String getId();
 
     SCOPE getScope();

@@ -19,7 +19,7 @@
         <aop:aspect ref="tx">
 
             <aop:pointcut id="placeOrder"
-                          expression="execution(* com.lifeiscoding.spring.test.*.placeOrder(..))" />
+                          expression="execution(* com.lifeiscoding.spring.test.service.*.placeOrder(..))" />
 
             <aop:before pointcut-ref="placeOrder" method="start" />
             <aop:after-returning pointcut-ref="placeOrder"	method="commit" />

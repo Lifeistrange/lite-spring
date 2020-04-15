@@ -2,11 +2,13 @@ package com.lifeiscoding.spring.aop.config;
 
 import com.lifeiscoding.spring.beans.BeanUtils;
 import com.lifeiscoding.spring.beans.factory.BeanFactory;
+import com.lifeiscoding.spring.beans.factory.BeanFactoryAware;
+import com.lifeiscoding.spring.beans.factory.FactoryBean;
 import com.lifeiscoding.spring.util.StringUtils;
 
 import java.lang.reflect.Method;
 
-public class MethodLocatingFactory {
+public class MethodLocatingFactory implements FactoryBean<Method>, BeanFactoryAware {
 
     private String targetBeanName;
     private String methodName;
@@ -42,5 +44,10 @@ public class MethodLocatingFactory {
 
     public Method getObject() throws Exception {
         return this.method;
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return Method.class;
     }
 }

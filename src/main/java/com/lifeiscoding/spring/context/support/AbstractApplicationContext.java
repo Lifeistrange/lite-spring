@@ -1,5 +1,6 @@
 package com.lifeiscoding.spring.context.support;
 
+import com.lifeiscoding.spring.aop.aspectj.AspectJAutoProxyCreator;
 import com.lifeiscoding.spring.beans.factory.NoSuchBeanDefinitionException;
 import com.lifeiscoding.spring.beans.factory.annotation.AutowiredAnnotationProcessor;
 import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
@@ -8,6 +9,8 @@ import com.lifeiscoding.spring.beans.factory.xml.XMLBeanDefinitionReader;
 import com.lifeiscoding.spring.context.ApplicationContext;
 import com.lifeiscoding.spring.core.Resource;
 import com.lifeiscoding.spring.util.ClassUtils;
+
+import java.util.List;
 
 public abstract class AbstractApplicationContext implements ApplicationContext {
 
@@ -40,13 +43,26 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     protected abstract Resource getResource(String configFile);
 
     protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
-        AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
-        postProcessor.setBeanFactory(beanFactory);
-        beanFactory.addBeanPostProcessor(postProcessor);
+        {
+            AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
+            postProcessor.setBeanFactory(beanFactory);
+            beanFactory.addBeanPostProcessor(postProcessor);
+        }
+
+        {
+            AspectJAutoProxyCreator postProcessor = new AspectJAutoProxyCreator();
+            postProcessor.setBeanFactory(beanFactory);
+            beanFactory.addBeanPostProcessor(postProcessor);
+        }
     }
 
     @Override
     public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
         return this.factory.getType(name);
+    }
+
+    @Override
+    public List<Object> getBeansByType(Class<?> type) {
+        return this.factory.getBeansByType(type);
     }
 }

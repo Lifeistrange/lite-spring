@@ -1,5 +1,6 @@
 package com.lifeiscoding.spring.beans.factory.support;
 
+import com.lifeiscoding.spring.aop.config.MethodLocatingFactory;
 import com.lifeiscoding.spring.beans.BeanDefinition;
 import com.lifeiscoding.spring.beans.ConstructorArgument;
 import com.lifeiscoding.spring.beans.PropertyValue;
@@ -15,23 +16,30 @@ public class GenericBeanDefinition implements BeanDefinition {
     private ConstructorArgument constructorArgument = new ConstructorArgument();
     private boolean singleton = true;
     private boolean prototype = false;
+    private boolean synthetic = false;
     private SCOPE scope = SCOPE.DEFAULT;
     private Class<?> beanClass;
 
-    public GenericBeanDefinition() {};
+    public GenericBeanDefinition() {
+    }
 
     public GenericBeanDefinition(String id, String beanClassName) {
         this.id = id;
         this.beanClassName = beanClassName;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public GenericBeanDefinition(Class<?> clz) {
+        this.beanClass = clz;
+        this.beanClassName = clz.getName();
     }
 
     @Override
     public String getId() {
         return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -42,6 +50,15 @@ public class GenericBeanDefinition implements BeanDefinition {
     @Override
     public boolean isPrototype() {
         return prototype;
+    }
+
+    @Override
+    public boolean isSynthetic() {
+        return synthetic;
+    }
+
+    public void setSynthetic(boolean synthetic) {
+        this.synthetic = synthetic;
     }
 
     @Override
@@ -61,13 +78,12 @@ public class GenericBeanDefinition implements BeanDefinition {
         this.prototype = scope == SCOPE.PROTOTYPE;
     }
 
+    public String getBeanClassName() {
+        return this.beanClassName;
+    }
 
     public void setBeanClassName(String className) {
         this.beanClassName = className;
-    }
-
-    public String getBeanClassName() {
-        return this.beanClassName;
     }
 
     @Override

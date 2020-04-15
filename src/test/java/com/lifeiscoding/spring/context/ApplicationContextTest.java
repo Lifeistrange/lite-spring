@@ -62,7 +62,7 @@ public class ApplicationContextTest {
 
     @Test
     public void testPlaceOrderV5() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("petstrore-v5.xml");
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v5.xml");
         PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStore");
 
         Assert.assertNotNull(petStoreService.getAccountDao());
