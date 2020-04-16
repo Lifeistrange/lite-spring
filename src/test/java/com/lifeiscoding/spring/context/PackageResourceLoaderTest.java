@@ -13,6 +13,6 @@ public class PackageResourceLoaderTest {
     public void testGetResouces() throws IOException {
         PackageResourceLoader loader = new PackageResourceLoader();
         Resource[] resources = loader.getResources("com.lifeiscoding.spring.test");
-        Assert.assertEquals(3, resources.length);
+        Assert.assertEquals(6, resources.length);
     }
 }

@@ -25,7 +25,7 @@ public class ClassReaderTest {
         Assert.assertFalse(visitor.isFinal());
         Assert.assertEquals("com.lifeiscoding.spring.test.service.PetStoreService", visitor.getClassName());
         Assert.assertEquals("java.lang.Object", visitor.getSuperClassName());
-        Assert.assertEquals(0, visitor.getInterfaceName().length);
+        Assert.assertEquals(1, visitor.getInterfaceName().length);
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.lifeiscoding.spring.aop.Pointcut;
 import com.lifeiscoding.spring.aop.framework.AopConfigSupport;
 import com.lifeiscoding.spring.aop.framework.AopProxyFactory;
 import com.lifeiscoding.spring.aop.framework.CglibProxyFactory;
+import com.lifeiscoding.spring.aop.framework.JdkAopProxyFactory;
 import com.lifeiscoding.spring.beans.BeansException;
 import com.lifeiscoding.spring.beans.factory.config.BeanPostProcessor;
 import com.lifeiscoding.spring.beans.factory.config.ConfigurableBeanFactory;
@@ -76,7 +77,7 @@ public class AspectJAutoProxyCreator implements BeanPostProcessor {
             proxyFactory =  new CglibProxyFactory(config);
         } else{
             //TODO 需要实现JDK 代理
-            //proxyFactory = new JdkAopProxyFactory(config);
+            proxyFactory = new JdkAopProxyFactory(config);
         }
 
 

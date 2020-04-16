@@ -9,7 +9,7 @@ import com.lifeiscoding.spring.test.util.MessageTracker;
 
 
 @Component(value="petStore")
-public class PetStoreService {
+public class PetStoreService implements IPetStoreService {
 
     @Autowired
     private AccountDao accountDao;

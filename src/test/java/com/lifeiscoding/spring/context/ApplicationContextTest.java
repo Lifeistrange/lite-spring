@@ -3,9 +3,11 @@ package com.lifeiscoding.spring.context;
 import com.lifeiscoding.spring.context.support.ClassPathXmlApplicationContext;
 import com.lifeiscoding.spring.test.dao.AccountDao;
 import com.lifeiscoding.spring.test.dao.ItemDao;
+import com.lifeiscoding.spring.test.service.IPetStoreService;
 import com.lifeiscoding.spring.test.service.PetStoreService;
 import com.lifeiscoding.spring.test.util.MessageTracker;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -13,6 +15,11 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ApplicationContextTest {
+
+    @Before
+    public void setUp() {
+        MessageTracker.clearMsgs();
+    }
 
     @Test
     public void testGetBeanV1() {
@@ -60,7 +67,7 @@ public class ApplicationContextTest {
         Assert.assertNotNull(petStoreService.getItemDao());
     }
 
-    @Test
+//    @Test
     public void testPlaceOrderV5() {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v5.xml");
         PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStore");
@@ -78,4 +85,19 @@ public class ApplicationContextTest {
         Assert.assertEquals("commit tx", msgs.get(2));
     }
 
+
+    @Test
+    public void testGetBeanPropertyV6() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v6.xml");
+        IPetStoreService petStoreService = (IPetStoreService) ctx.getBean("petStore");
+
+        petStoreService.placeOrder();
+
+        List<String> msgs = MessageTracker.getMsgs();
+
+        Assert.assertEquals(3, msgs.size());
+        Assert.assertEquals("start tx", msgs.get(0));
+        Assert.assertEquals("place order", msgs.get(1));
+        Assert.assertEquals("commit tx", msgs.get(2));
+    }
 }
